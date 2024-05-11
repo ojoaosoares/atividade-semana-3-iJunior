@@ -1,0 +1,19 @@
+{
+  "name": "atividade-semana-3-ijunior",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "tsc"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@types/node": "^20.12.11",
+    "typescript": "^5.4.5"
+  },
+  "dependencies": {
+    "fs": "^0.0.1-security"
+  }
+}
