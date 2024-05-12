@@ -1,5 +1,6 @@
 import { error } from 'console';
 import fs from 'fs';
+import { resolve } from 'path';
 
 const database : string = "estoque.csv";
 const dir : string = "./data/";
@@ -7,32 +8,32 @@ const dir : string = "./data/";
 function inserirLinha(linha : string)
 {
     // Abre um diretorio, caso ele na exista o diretorio é criado
-    fs.mkdir(dir, {recursive: true}, (err) => {
+
+    return new Promise ((resolve, reject) => {
+
+        fs.mkdir(dir, {recursive: true}, (err) => {
         
-        if(err) throw err;
-        
-        console.log("O diretorio foi aberto");
-
-        // Abre o arquivo especificado, caso ele não exista o arquivo é criado
-        fs.open(`${dir}${database}`, 'a', (err, fd) => {
-
-            if (err) throw err;
-
-            console.log("O arquivo foi aberto aberto");
-
-            fs.write(fd, linha + '\n', err => {
-                if (err) throw err;
-
-                console.log("Arquivo foi escrito com sucesso")
-
-                fs.close(fd, err => {
-                    if (err) throw err;
-                    
-                    console.log("Arquivo foi fechado com sucesso")
+            if(err)  reject(err);
+    
+            // Abre o arquivo especificado, caso ele não exista o arquivo é criado
+            // O arquivo é aberto em modo append, adicionar no final
+            fs.open(`${dir}${database}`, 'a', (err, fd) => {
+    
+                if (err) reject(err);
+    
+                fs.write(fd, linha + '\n', err => {
+                    if (err) reject(err);
+    
+                    fs.close(fd, err => {
+                        if (err) reject(err);
+    
+                        resolve("Inserção de linha concluida com sucesso");
+                    })
                 })
             })
         })
-    })
+    });
+
 }
 
  
@@ -64,6 +65,57 @@ function recuperarLinha(id : number)
     });
 }
 
+function removerLinha(id : number)
+{
+    return new Promise((resolve, reject) => {
 
+        fs.readFile(`${dir}${database}`, 'utf8', (err, data) => {
+        
+            if(err) reject(err);
+    
+            // O arquivo é dividido por linhas, em seguida é filtrado
+            let rows = data.split(/[\r\n]/).filter( value => {
+                
+                let collum = value.split(',');
+
+                return Number(collum[0]) != id;
+
+            });
+
+
+            let newContent = rows.join('\n');
+
+
+            // O arquivo filtrado é sobreposto com o novo conteudo
+            fs.open(`${dir}${database}`, 'w', (err, fd) => {
+
+                if (err) reject(err);
+
+                fs.write(fd, newContent, err => {
+                    
+                    if (err) reject(err);
+
+                    fs.close(fd, err => {
+
+                        if (err) reject(err);
+
+                        resolve("Linha removida com sucesso");
+                    })
+                })
+            })
+
+        })
+
+    }); 
+}
+
+
+removerLinha(3)
+    .then(message => {
+        console.log(message);
+    })
+    .catch(err => {
+        console.log(err);
+    })
 
 

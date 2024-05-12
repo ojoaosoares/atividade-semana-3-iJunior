@@ -31,17 +31,54 @@ function inserirLinha(linha) {
     });
 }
 function recuperarLinha(id) {
-    fs_1.default.readFile(`${dir}${database}`, 'utf8', (err, data) => {
-        if (err)
-            throw err;
-        let rows = data.split(/[\r\n]/);
-        rows.forEach((value) => {
-            let collum = value.split(',');
-            if (Number(collum[0]) == id)
-                return collum;
+    return new Promise((resolve, reject) => {
+        fs_1.default.readFile(`${dir}${database}`, 'utf8', (err, data) => {
+            if (err)
+                reject(err);
+            let rows = data.split(/[\r\n]/);
+            for (let value of rows) {
+                let collum = value.split(',');
+                if (Number(collum[0]) == id) {
+                    resolve(collum);
+                    break;
+                }
+            }
+            // The value was not find 
+            resolve([]);
         });
     });
-    return null;
 }
-console.log(recuperarLinha(4));
+function removerLinha(id) {
+    return new Promise((resolve, reject) => {
+        fs_1.default.readFile(`${dir}${database}`, 'utf8', (err, data) => {
+            if (err)
+                reject(err);
+            let rows = data.split(/[\r\n]/).filter(value => {
+                let collum = value.split(',');
+                return Number(collum[0]) != id;
+            });
+            let newContent = rows.join('\n');
+            fs_1.default.open(`${dir}${database}`, 'w', (err, fd) => {
+                if (err)
+                    reject(err);
+                fs_1.default.write(fd, newContent, err => {
+                    if (err)
+                        reject(err);
+                    fs_1.default.close(fd, err => {
+                        if (err)
+                            reject(err);
+                    });
+                });
+            });
+            resolve("Linha removida com sucesso");
+        });
+    });
+}
+removerLinha(3)
+    .then(message => {
+    console.log(message);
+})
+    .catch(err => {
+    console.log(err);
+});
 //# sourceMappingURL=readCVS.js.map
