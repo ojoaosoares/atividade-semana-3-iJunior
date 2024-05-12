@@ -110,12 +110,22 @@ function removerLinha(id : number)
 }
 
 
-removerLinha(3)
-    .then(message => {
-        console.log(message);
-    })
-    .catch(err => {
-        console.log(err);
-    })
+function retornarItens() {
 
+    return new Promise((resolve, reject) => {
 
+        fs.readFile(`${dir}${database}`, 'utf8', (err, data) => {
+        
+            if(err) reject(err);
+    
+            let itens = data.split(/[\r\n]/).map(value => {
+
+                return value.split(',');
+            });
+
+            
+            resolve(itens);
+
+        })
+    });
+}
