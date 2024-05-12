@@ -1,30 +1,32 @@
-import { error } from 'console';
-import fs from 'fs';
-import { resolve } from 'path';
+const fs  = require('fs');
+import  {Produto} from '../classes/produto'
+
 
 const database : string = "estoque.csv";
 const dir : string = "./data/";
 
-function inserirLinha(linha : string)
+
+function inserirLinha(p : Produto)
 {
     // Abre um diretorio, caso ele na exista o diretorio é criado
 
     return new Promise ((resolve, reject) => {
 
-        fs.mkdir(dir, {recursive: true}, (err) => {
+        fs.mkdir(dir, {recursive: true}, (err : any) => {
         
             if(err)  reject(err);
     
             // Abre o arquivo especificado, caso ele não exista o arquivo é criado
             // O arquivo é aberto em modo append, adicionar no final
-            fs.open(`${dir}${database}`, 'a', (err, fd) => {
+            fs.open(`${dir}${database}`, 'a', (err : any, fd : any) => {
     
                 if (err) reject(err);
     
-                fs.write(fd, linha + '\n', err => {
+                fs.write(fd,  `${p.index},${p.nome},${p.peso},
+                ${p.preco},${p.quantidade}\n`, (err : any) => {
                     if (err) reject(err);
     
-                    fs.close(fd, err => {
+                    fs.close(fd, (err : any) => {
                         if (err) reject(err);
     
                         resolve("Inserção de linha concluida com sucesso");
@@ -39,9 +41,9 @@ function inserirLinha(linha : string)
  
 function recuperarLinha(id : number)
 {
-    return new Promise<Array<any>>((resolve, reject) => {
+    return new Promise((resolve, reject) => {
 
-        fs.readFile(`${dir}${database}`, 'utf8', (err, data) => {
+        fs.readFile(`${dir}${database}`, 'utf8', (err : any, data : string) => {
         
             if(err) reject(err);
     
@@ -53,13 +55,18 @@ function recuperarLinha(id : number)
     
                 if (Number(collum[0]) == id)
                 {   
-                    resolve(collum);
+
+                    let p = new Produto(Number(collum[0]), collum[1],
+                    Number(collum[2]), Number(collum[3]), Number(collum[4]));
+
+                    resolve(p);
+
                     break;
                 }
             }
 
            // The value was not find 
-            resolve([]);
+            resolve(null);
         })
 
     });
@@ -69,7 +76,7 @@ function removerLinha(id : number)
 {
     return new Promise((resolve, reject) => {
 
-        fs.readFile(`${dir}${database}`, 'utf8', (err, data) => {
+        fs.readFile(`${dir}${database}`, 'utf8', (err : any, data : string) => {
         
             if(err) reject(err);
     
@@ -87,15 +94,15 @@ function removerLinha(id : number)
 
 
             // O arquivo filtrado é sobreposto com o novo conteudo
-            fs.open(`${dir}${database}`, 'w', (err, fd) => {
+            fs.open(`${dir}${database}`, 'w', (err : any, fd : any) => {
 
                 if (err) reject(err);
 
-                fs.write(fd, newContent, err => {
+                fs.write(fd, newContent, (err : any) => {
                     
                     if (err) reject(err);
 
-                    fs.close(fd, err => {
+                    fs.close(fd, (err : any) => {
 
                         if (err) reject(err);
 
@@ -114,18 +121,25 @@ function retornarItens() {
 
     return new Promise((resolve, reject) => {
 
-        fs.readFile(`${dir}${database}`, 'utf8', (err, data) => {
+        fs.readFile(`${dir}${database}`, 'utf8', (err : any, data : string) => {
         
             if(err) reject(err);
     
             let itens = data.split(/[\r\n]/).map(value => {
 
-                return value.split(',');
+                let collum = value.split(',');
+
+                let p = new Produto(Number(collum[0]), collum[1],
+                Number(collum[2]), Number(collum[3]), Number(collum[4]));
+
+                return p;
             });
 
-            
             resolve(itens);
 
         })
     });
 }
+
+
+module.exports = {inserirLinha, recuperarLinha, removerLinha, retornarItens};
