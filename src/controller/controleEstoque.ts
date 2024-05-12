@@ -34,12 +34,21 @@ function adicionarItem(index : number, nome : string, peso : number,
 
 
 function removerItem(index : number) {
-        
+
     try {
         readCVS.removerLinha(index);    
     } catch (error) {
         console.log(error);
     }
 
+}
+
+function listarItens() {
+
+    let itens = readCVS.retornarItens();
+
+    itens.forEach(element => {
+        element.imprimir();
+    })
 }
 

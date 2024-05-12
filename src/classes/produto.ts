@@ -2,17 +2,21 @@ export class Produto {
 
     index : number;
     nome : string;
-    preco : number;
+    valor : number;
     peso : number;
     quantidade : number
     
     constructor(index : number, nome : string, 
-    peso : number, preco : number,  quantidade : number)
+    peso : number, valor : number,  quantidade : number)
     {
         this.index = index;
         this.nome = nome;
-        this.preco = preco;
+        this.valor = valor;
         this.peso = peso;
         this.quantidade = quantidade
     };
+
+    imprimir() : void {
+        console.log(`${this.index} ${this.nome} ${this.index} ${this.peso} ${this.valor} ${this.quantidade}`);  
+    }
 };

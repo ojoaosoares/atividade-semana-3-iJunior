@@ -72,7 +72,7 @@ function inserirLinha(p : Produto)
         if(recuperarLinha(p.index) != null)
             throw "Index já cadastrado";
         
-        fs.writeSync(fd,  `${p.index},${p.nome},${p.peso},${p.preco},${p.quantidade}\n`);
+        fs.writeSync(fd, `${p.index},${p.nome},${p.peso},${p.valor},${p.quantidade}\n`);
     
         fs.closeSync(fd);
 
