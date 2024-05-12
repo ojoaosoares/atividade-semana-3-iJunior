@@ -66,5 +66,29 @@ function retornarPesoTotal() {
 }
 
 
-console.log(retornarValorTotal());
-console.log(retornarPesoTotal());
+function retornarQuantidadeTotal() {
+
+    return readCVS.retornarItens().reduce((acumulador, valorAtual) => {
+        return acumulador + valorAtual.quantidade;
+    }, 0);
+}
+
+function retornarQuantidadeUnica() {
+    
+    return readCVS.retornarItens().length();
+}
+
+
+function retornarMediaValor() {
+    
+    return retornarValorTotal()/retornarQuantidadeTotal();
+}
+
+function retornarMediaPeso() {
+    
+    return retornarPesoTotal()/retornarQuantidadeTotal();
+}
+
+
+module.exports = {adicionarItem, removerItem, listarItens, retornarValorTotal,
+    retornarPesoTotal, retornarQuantidadeTotal, retornarQuantidadeUnica, retornarMediaValor, retornarMediaPeso};
