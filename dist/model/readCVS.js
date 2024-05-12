@@ -12,23 +12,32 @@ function inserirLinha(linha) {
         if (err)
             throw err;
         console.log("O diretorio foi aberto");
-    });
-    // Abre o arquivo especificado, caso ele não exista o arquivo é criado
-    fs_1.default.open(`${dir}${database}`, 'a', (err, fd) => {
-        if (err)
-            throw err;
-        console.log("O arquivo foi aberto aberto");
-        fs_1.default.write(fd, linha, err => {
+        // Abre o arquivo especificado, caso ele não exista o arquivo é criado
+        fs_1.default.open(`${dir}${database}`, 'a', (err, fd) => {
             if (err)
                 throw err;
-            console.log("Arquivo foi escrito com sucesso");
-            fs_1.default.close(fd, err => {
+            console.log("O arquivo foi aberto aberto");
+            fs_1.default.write(fd, linha + '\n', err => {
                 if (err)
                     throw err;
-                console.log("Arquivo foi fechado com sucesso");
+                console.log("Arquivo foi escrito com sucesso");
+                fs_1.default.close(fd, err => {
+                    if (err)
+                        throw err;
+                    console.log("Arquivo foi fechado com sucesso");
+                });
             });
         });
     });
 }
-inserirLinha("cu\n");
+function recuperarLinha(id) {
+    fs_1.default.readFile(`${dir}${database}`, 'utf8', (err, data) => {
+        if (err)
+            throw err;
+        let colunas = data.split(/[,\n]/);
+        console.log(colunas);
+    });
+}
+inserirLinha('teste,a,salve,4');
+recuperarLinha(5);
 //# sourceMappingURL=readCVS.js.map
