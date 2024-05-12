@@ -264,7 +264,11 @@ function retornarItens() {
 
     let data = fs.readFileSync(`${dir}${database}`, 'utf8')        
 
-    let itens = data.split(/[\r\n]/).map(value => {
+    let itens = data.split(/[\r\n]/).filter(value => {
+
+        return (value.split(',').length == 5) && value.trim !== '';
+    })
+    .map(value => {
 
         let collum = value.split(',');
 

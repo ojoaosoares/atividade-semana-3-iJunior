@@ -28,10 +28,8 @@ function adicionarItem(index : number, nome : string, peso : number,
         readCVS.inserirLinha(produto);    
     } catch (error) {
         console.log (error);
-    }        
-    
+    }           
 }
-
 
 function removerItem(index : number) {
 
@@ -40,15 +38,33 @@ function removerItem(index : number) {
     } catch (error) {
         console.log(error);
     }
-
 }
 
 function listarItens() {
 
     let itens = readCVS.retornarItens();
 
+    console.log("INDEX - NOME - PESO - VALOR - QUANTIDADE");
+
     itens.forEach(element => {
         element.imprimir();
     })
 }
 
+function retornarValorTotal() {
+
+    return readCVS.retornarItens().reduce((acumulador, valorAtual) => {
+        return acumulador + (valorAtual.quantidade * valorAtual.valor);
+    }, 0);
+}
+
+function retornarPesoTotal() {
+
+    return readCVS.retornarItens().reduce((acumulador, valorAtual) => {
+        return acumulador + (valorAtual.quantidade * valorAtual.peso);
+    }, 0);
+}
+
+
+console.log(retornarValorTotal());
+console.log(retornarPesoTotal());
