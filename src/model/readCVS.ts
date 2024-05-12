@@ -35,17 +35,35 @@ function inserirLinha(linha : string)
     })
 }
 
-
+ 
 function recuperarLinha(id : number)
 {
-    fs.readFile(`${dir}${database}`, 'utf8', (err, data) => {
+    return new Promise<Array<any>>((resolve, reject) => {
+
+        fs.readFile(`${dir}${database}`, 'utf8', (err, data) => {
         
-        if(err) throw err;
+            if(err) reject(err);
+    
+            let rows = data.split(/[\r\n]/);
+    
+            for (let value of rows)
+            {
+                let collum = value.split(',');
+    
+                if (Number(collum[0]) == id)
+                {   
+                    resolve(collum);
+                    break;
+                }
+            }
 
-        let colunas = data.split(/[,\n]/);
+           // The value was not find 
+            resolve([]);
+        })
 
-        if (Number(colunas[0]) == id) return colunas;
     });
 }
+
+
 
 

@@ -34,10 +34,14 @@ function recuperarLinha(id) {
     fs_1.default.readFile(`${dir}${database}`, 'utf8', (err, data) => {
         if (err)
             throw err;
-        let colunas = data.split(/[,\n]/);
-        console.log(colunas);
+        let rows = data.split(/[\r\n]/);
+        rows.forEach((value) => {
+            let collum = value.split(',');
+            if (Number(collum[0]) == id)
+                return collum;
+        });
     });
+    return null;
 }
-inserirLinha('teste,a,salve,4');
-recuperarLinha(5);
+console.log(recuperarLinha(4));
 //# sourceMappingURL=readCVS.js.map
