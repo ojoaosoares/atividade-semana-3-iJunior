@@ -3,6 +3,14 @@ import { parse } from "url";
 const controle = require('../controller/controleEstoque');
 const readLine = require('readline-sync');
 
+
+function criarEstoque() {
+
+    controle.criarDatabase();
+
+    console.log("Arquivos necessarios lidos/criados");
+}
+
 function lerItem() {
     
     console.log("Cadastrando item");
@@ -231,7 +239,6 @@ function listarQuantidadeTotalInventario()
     }
 }
 
-
 function listarQuantidadeUnicaInventario()
 {
     try {
@@ -240,3 +247,8 @@ function listarQuantidadeUnicaInventario()
         throw error;
     }
 }
+
+
+module.exports = {criarEstoque, lerItem, removerItem, listarInventario,
+    listarMediaPesoInventario, listarMediaValorInventario, listarPesoTotalInventario, listarQuantidadeTotalInventario,
+    listarQuantidadeUnicaInventario, listarValorTotalInventario};

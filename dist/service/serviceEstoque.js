@@ -2,7 +2,12 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 const controle = require('../controller/controleEstoque');
 const readLine = require('readline-sync');
+function criarEstoque() {
+    controle.criarDatabase();
+    console.log("Arquivos necessarios lidos/criados");
+}
 function lerItem() {
+    console.log("Cadastrando item");
     let nome, peso_s, medida, valor_s, quantidade_s;
     while (true) {
         nome = readLine.question("Nome: ").trim();
@@ -75,7 +80,6 @@ function lerItem() {
         else
             break;
     }
-    nome = nome.toUpperCase();
     let peso = parseFloat(peso_s);
     if (medida.toUpperCase() == 'G')
         peso /= 1000;
@@ -89,6 +93,7 @@ function lerItem() {
     }
 }
 function removerItem() {
+    console.log("Removendo item");
     let index_s;
     while (true) {
         index_s = readLine.question("Index: ").trim();
@@ -169,15 +174,7 @@ function listarQuantidadeUnicaInventario() {
         throw error;
     }
 }
-controle.iniciarDatabase();
-listarInventario();
-listarMediaPesoInventario();
-listarMediaValorInventario();
-listarPesoTotalInventario();
-listarQuantidadeTotalInventario();
-listarQuantidadeUnicaInventario();
-listarValorTotalInventario();
-lerItem();
-removerItem();
-listarInventario();
+module.exports = { criarEstoque, lerItem, removerItem, listarInventario,
+    listarMediaPesoInventario, listarMediaValorInventario, listarPesoTotalInventario, listarQuantidadeTotalInventario,
+    listarQuantidadeUnicaInventario, listarValorTotalInventario };
 //# sourceMappingURL=serviceEstoque.js.map

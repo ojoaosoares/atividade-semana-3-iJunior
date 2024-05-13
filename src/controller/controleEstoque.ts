@@ -4,7 +4,7 @@ const readCVS = require('../model/readCVS');
 import  {Produto} from '../classes/produto';
 
 
-function iniciarDatabase() {
+function criarDatabase() {
 
     readCVS.criarArquivos();
 }
@@ -147,6 +147,29 @@ function retornarMediaPeso() {
 }
 
 
+function pesquisarPorNome(valor : string)
+{
+    let itens : Array<Produto>;
+    
+    try {
+        itens = readCVS.retornarItens();   
+    } catch (error) {
+        throw error
+    }
+
+    itens = itens.filter(value => {
+        return value.nome.toLowerCase().includes(valor.toLocaleLowerCase());
+    })
+
+    console.log("INDEX - NOME - PESO - VALOR - QUANTIDADE");
+
+    itens.forEach(element => {
+        element.imprimir();
+    })
+
+}
+
+
 module.exports = {adicionarItem, removerItem, listarItens, retornarValorTotal,
     retornarPesoTotal, retornarQuantidadeTotal, retornarQuantidadeUnica,
-    retornarMediaValor, retornarMediaPeso, iniciarDatabase};
+    retornarMediaValor, retornarMediaPeso, criarDatabase};

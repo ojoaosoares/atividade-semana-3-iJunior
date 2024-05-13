@@ -33,7 +33,6 @@ function criarArquivos() {
         fs.closeSync(fd2);
     }
 
-    console.log("Arquivos necessarios criados");
 }
 
 function retornarIndex() {

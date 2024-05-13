@@ -23,7 +23,6 @@ function criarArquivos() {
         fs.writeSync(fd2, "1");
         fs.closeSync(fd2);
     }
-    console.log("Arquivos necessarios criados");
 }
 function retornarIndex() {
     if (!fs.existsSync(`${dir}${index_item}`))

@@ -2,7 +2,7 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 const readCVS = require('../model/readCVS');
 const produto_1 = require("../classes/produto");
-function iniciarDatabase() {
+function criarDatabase() {
     readCVS.criarArquivos();
 }
 function adicionarItem(nome, peso, valor, quantidade) {
@@ -108,5 +108,5 @@ function retornarMediaPeso() {
 }
 module.exports = { adicionarItem, removerItem, listarItens, retornarValorTotal,
     retornarPesoTotal, retornarQuantidadeTotal, retornarQuantidadeUnica,
-    retornarMediaValor, retornarMediaPeso, iniciarDatabase };
+    retornarMediaValor, retornarMediaPeso, criarDatabase };
 //# sourceMappingURL=controleEstoque.js.map
