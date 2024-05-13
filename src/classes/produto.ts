@@ -17,6 +17,6 @@ export class Produto {
     };
 
     imprimir() : void {
-        console.log(`${this.index} ${this.nome} ${this.index} ${this.peso} ${this.valor} ${this.quantidade}`);  
+        console.log(`${this.index} ${this.nome} ${this.peso}Kg R$${this.valor} ${this.quantidade}`);  
     }
 };

@@ -23,7 +23,6 @@ function criarArquivos() {
         fs.writeSync(fd2, "1");
         fs.closeSync(fd2);
     }
-    console.log("Arquivos necessarios criados");
 }
 function retornarIndex() {
     if (!fs.existsSync(`${dir}${index_item}`))
@@ -60,7 +59,7 @@ function recuperarLinha(id) {
         }
     }
     // The value was not find 
-    throw "Index não existe";
+    throw "Item não existe";
 }
 function indexExiste(id) {
     if (!fs.existsSync(`${dir}${database}`))
@@ -80,7 +79,7 @@ function removerLinha(id) {
     if (!fs.existsSync(`${dir}${database}`))
         throw "Arquivo ou diretorio não existe";
     if (indexExiste(id) == false)
-        throw "Index não existe";
+        throw "Item não existe";
     let data = fs.readFileSync(`${dir}${database}`, 'utf8');
     // O arquivo é dividido por linhas, em seguida é filtrado
     let rows = data.split(/[\r\n]/).filter(value => {

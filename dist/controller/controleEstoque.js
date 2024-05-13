@@ -2,7 +2,7 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 const readCVS = require('../model/readCVS');
 const produto_1 = require("../classes/produto");
-function iniciarDatabase() {
+function criarDatabase() {
     readCVS.criarArquivos();
 }
 function adicionarItem(nome, peso, valor, quantidade) {
@@ -17,6 +17,16 @@ function adicionarItem(nome, peso, valor, quantidade) {
     catch (error) {
         throw error;
     }
+}
+function recuperarItem(index) {
+    let produto;
+    try {
+        produto = readCVS.recuperarLinha(index);
+    }
+    catch (error) {
+        throw error;
+    }
+    produto.imprimir();
 }
 function removerItem(index) {
     try {
@@ -106,7 +116,23 @@ function retornarMediaPeso() {
     }
     return media_peso;
 }
+function pesquisarPorNome(valor) {
+    let itens;
+    try {
+        itens = readCVS.retornarItens();
+    }
+    catch (error) {
+        throw error;
+    }
+    itens = itens.filter(value => {
+        return value.nome.toLowerCase().includes(valor.toLocaleLowerCase());
+    });
+    console.log("INDEX - NOME - PESO - VALOR - QUANTIDADE");
+    itens.forEach(element => {
+        element.imprimir();
+    });
+}
 module.exports = { adicionarItem, removerItem, listarItens, retornarValorTotal,
     retornarPesoTotal, retornarQuantidadeTotal, retornarQuantidadeUnica,
-    retornarMediaValor, retornarMediaPeso, iniciarDatabase };
+    retornarMediaValor, retornarMediaPeso, criarDatabase, pesquisarPorNome, recuperarItem };
 //# sourceMappingURL=controleEstoque.js.map
