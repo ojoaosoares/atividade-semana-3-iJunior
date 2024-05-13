@@ -2,25 +2,20 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 const readCVS = require('../model/readCVS');
 const produto_1 = require("../classes/produto");
-// function adicionarItem(index : number, nome : string, peso : number,
-// valor : number, quantidade : number) {
-//     return new Promise ((resolve : any, reject : any) => {
-//         let produto = new Produto(index, nome, peso, valor, quantidade);
-//         readCVS.inserirLinha(produto)
-//             .then((result) => {
-//                 resolve(result)
-//             }).catch((err) => {
-//                 reject(err);
-//             });
-//     })
-// }
-function adicionarItem(index, nome, peso, valor, quantidade) {
-    let produto = new produto_1.Produto(index, nome, peso, valor, quantidade);
+function iniciarDatabase() {
+    readCVS.criarArquivos();
+}
+function adicionarItem(nome, peso, valor, quantidade) {
     try {
+        let index = readCVS.retornarIndex();
+        while (readCVS.indexExiste(index))
+            index++;
+        let produto = new produto_1.Produto(index, nome, peso, valor, quantidade);
         readCVS.inserirLinha(produto);
+        readCVS.atualizarIndex(index);
     }
     catch (error) {
-        console.log(error);
+        throw error;
     }
 }
 function removerItem(index) {
@@ -28,26 +23,88 @@ function removerItem(index) {
         readCVS.removerLinha(index);
     }
     catch (error) {
-        console.log(error);
+        throw error;
     }
 }
 function listarItens() {
-    let itens = readCVS.retornarItens();
+    let itens;
+    try {
+        itens = readCVS.retornarItens();
+    }
+    catch (error) {
+        throw error;
+    }
     console.log("INDEX - NOME - PESO - VALOR - QUANTIDADE");
     itens.forEach(element => {
         element.imprimir();
     });
 }
 function retornarValorTotal() {
-    return readCVS.retornarItens().reduce((acumulador, valorAtual) => {
-        return acumulador + (valorAtual.quantidade * valorAtual.valor);
-    }, 0);
+    let valor_total;
+    try {
+        valor_total = readCVS.retornarItens().reduce((acumulador, valorAtual) => {
+            return acumulador + (valorAtual.quantidade * valorAtual.valor);
+        }, 0);
+    }
+    catch (error) {
+        throw error;
+    }
+    return valor_total;
 }
 function retornarPesoTotal() {
-    return readCVS.retornarItens().reduce((acumulador, valorAtual) => {
-        return acumulador + (valorAtual.quantidade * valorAtual.peso);
-    }, 0);
+    let peso_total;
+    try {
+        peso_total = readCVS.retornarItens().reduce((acumulador, valorAtual) => {
+            return acumulador + (valorAtual.quantidade * valorAtual.peso);
+        }, 0);
+    }
+    catch (error) {
+        throw error;
+    }
+    return peso_total;
 }
-console.log(retornarValorTotal());
-console.log(retornarPesoTotal());
+function retornarQuantidadeTotal() {
+    let quantidade_total;
+    try {
+        quantidade_total = readCVS.retornarItens().reduce((acumulador, valorAtual) => {
+            return acumulador + valorAtual.quantidade;
+        }, 0);
+    }
+    catch (error) {
+        throw error;
+    }
+    return quantidade_total;
+}
+function retornarQuantidadeUnica() {
+    let quantidade_unica;
+    try {
+        quantidade_unica = readCVS.retornarItens().length;
+    }
+    catch (error) {
+        throw error;
+    }
+}
+function retornarMediaValor() {
+    let media_valor;
+    try {
+        media_valor = retornarValorTotal() / retornarQuantidadeTotal();
+    }
+    catch (error) {
+        throw error;
+    }
+    return media_valor;
+}
+function retornarMediaPeso() {
+    let media_peso;
+    try {
+        media_peso = retornarPesoTotal() / retornarQuantidadeTotal();
+    }
+    catch (error) {
+        throw error;
+    }
+    return media_peso;
+}
+module.exports = { adicionarItem, removerItem, listarItens, retornarValorTotal,
+    retornarPesoTotal, retornarQuantidadeTotal, retornarQuantidadeUnica,
+    retornarMediaValor, retornarMediaPeso, iniciarDatabase };
 //# sourceMappingURL=controleEstoque.js.map
