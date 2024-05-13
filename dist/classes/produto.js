@@ -11,7 +11,7 @@ class Produto {
     }
     ;
     imprimir() {
-        console.log(`${this.index} ${this.nome} ${this.peso}Kg R$${this.valor} ${this.quantidade}`);
+        console.log(`${this.index} ${this.nome} ${this.peso}Kg R$${this.valor} ${this.quantidade} unidades`);
     }
 }
 exports.Produto = Produto;
