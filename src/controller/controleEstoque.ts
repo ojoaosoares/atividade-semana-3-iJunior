@@ -3,31 +3,30 @@ import { read } from "fs";
 const readCVS = require('../model/readCVS');
 import  {Produto} from '../classes/produto';
 
-// function adicionarItem(index : number, nome : string, peso : number,
-// valor : number, quantidade : number) {
 
-//     return new Promise ((resolve : any, reject : any) => {
-                  
-//         let produto = new Produto(index, nome, peso, valor, quantidade);
-//         readCVS.inserirLinha(produto)
-//             .then((result) => {
-//                 resolve(result)
-//             }).catch((err) => {
-//                 reject(err);
-//             });
-//     })
-    
-// }
+function iniciarDatabase() {
 
-function adicionarItem(index : number, nome : string, peso : number,
+    readCVS.criarArquivos();
+}
+
+function adicionarItem(nome : string, peso : number,
     valor : number, quantidade : number) { 
-                      
-    let produto = new Produto(index, nome, peso, valor, quantidade);
-    
+
     try {
-        readCVS.inserirLinha(produto);    
+
+        let index = readCVS.retornarIndex();
+    
+        while (readCVS.indexExiste(index))
+            index++;
+    
+        let produto = new Produto(index, nome, peso, valor, quantidade);
+    
+        readCVS.inserirLinha(produto);
+        
+        readCVS.atualizarIndex(index + 1);
+
     } catch (error) {
-        console.log (error);
+        throw error;
     }           
 }
 
@@ -36,13 +35,19 @@ function removerItem(index : number) {
     try {
         readCVS.removerLinha(index);    
     } catch (error) {
-        console.log(error);
+        throw error;
     }
 }
 
 function listarItens() {
 
-    let itens = readCVS.retornarItens();
+    let itens : Array<Produto>;
+    
+    try {
+        itens = readCVS.retornarItens();   
+    } catch (error) {
+        throw error
+    }
 
     console.log("INDEX - NOME - PESO - VALOR - QUANTIDADE");
 
@@ -53,42 +58,95 @@ function listarItens() {
 
 function retornarValorTotal() {
 
-    return readCVS.retornarItens().reduce((acumulador, valorAtual) => {
-        return acumulador + (valorAtual.quantidade * valorAtual.valor);
-    }, 0);
+    let valor_total : number;
+    try {
+        valor_total = readCVS.retornarItens().reduce((acumulador, valorAtual) => {
+            return acumulador + (valorAtual.quantidade * valorAtual.valor);
+        }, 0);
+    } catch (error) {
+        throw error;
+    }
+
+    return valor_total;
 }
 
 function retornarPesoTotal() {
 
-    return readCVS.retornarItens().reduce((acumulador, valorAtual) => {
-        return acumulador + (valorAtual.quantidade * valorAtual.peso);
-    }, 0);
+    let peso_total : number;
+
+    try {
+
+        peso_total = readCVS.retornarItens().reduce((acumulador, valorAtual) => {
+            return acumulador + (valorAtual.quantidade * valorAtual.peso);
+        }, 0);    
+
+    } catch (error) {
+        throw error;
+    }
+
+    return peso_total;
+    
 }
 
 
 function retornarQuantidadeTotal() {
 
-    return readCVS.retornarItens().reduce((acumulador, valorAtual) => {
-        return acumulador + valorAtual.quantidade;
-    }, 0);
+    let quantidade_total : number;
+
+    try {
+        quantidade_total = readCVS.retornarItens().reduce((acumulador, valorAtual) => {
+            return acumulador + valorAtual.quantidade;
+        }, 0);
+    } catch (error) {
+        throw error;
+    }
+
+    return quantidade_total;
 }
 
 function retornarQuantidadeUnica() {
     
-    return readCVS.retornarItens().length();
+    let quantidade_unica : number;
+
+    try {
+        let itens = readCVS.retornarItens();
+        quantidade_unica = itens.length;    
+    } catch (error) {
+        throw error;
+    }
+
+    return quantidade_unica;
+    
 }
 
 
 function retornarMediaValor() {
     
-    return retornarValorTotal()/retornarQuantidadeTotal();
+    let media_valor : number
+    try {
+        media_valor = retornarValorTotal()/retornarQuantidadeTotal();
+    } catch (error) {
+        throw error;
+    }
+
+    return media_valor;
 }
 
 function retornarMediaPeso() {
     
-    return retornarPesoTotal()/retornarQuantidadeTotal();
+    let media_peso : number;
+
+    try {
+        media_peso = retornarPesoTotal()/retornarQuantidadeTotal();
+    } catch (error) {
+        throw error;
+    }
+
+    return media_peso;
+    
 }
 
 
 module.exports = {adicionarItem, removerItem, listarItens, retornarValorTotal,
-    retornarPesoTotal, retornarQuantidadeTotal, retornarQuantidadeUnica, retornarMediaValor, retornarMediaPeso};
+    retornarPesoTotal, retornarQuantidadeTotal, retornarQuantidadeUnica,
+    retornarMediaValor, retornarMediaPeso, iniciarDatabase};
