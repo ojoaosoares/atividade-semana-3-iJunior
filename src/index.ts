@@ -1,7 +1,6 @@
 const service = require('./service/serviceEstoque')
 const readLine = require('readline-sync');
 
-
 let key : number;
 
 service.criarEstoque();
