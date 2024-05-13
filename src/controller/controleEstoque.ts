@@ -109,10 +109,13 @@ function retornarQuantidadeUnica() {
     let quantidade_unica : number;
 
     try {
-        quantidade_unica = readCVS.retornarItens().length;    
+        let itens = readCVS.retornarItens();
+        quantidade_unica = itens.length;    
     } catch (error) {
         throw error;
     }
+
+    return quantidade_unica;
     
 }
 

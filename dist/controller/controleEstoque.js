@@ -12,7 +12,7 @@ function adicionarItem(nome, peso, valor, quantidade) {
             index++;
         let produto = new produto_1.Produto(index, nome, peso, valor, quantidade);
         readCVS.inserirLinha(produto);
-        readCVS.atualizarIndex(index);
+        readCVS.atualizarIndex(index + 1);
     }
     catch (error) {
         throw error;
@@ -78,11 +78,13 @@ function retornarQuantidadeTotal() {
 function retornarQuantidadeUnica() {
     let quantidade_unica;
     try {
-        quantidade_unica = readCVS.retornarItens().length;
+        let itens = readCVS.retornarItens();
+        quantidade_unica = itens.length;
     }
     catch (error) {
         throw error;
     }
+    return quantidade_unica;
 }
 function retornarMediaValor() {
     let media_valor;

@@ -5,6 +5,8 @@ const readLine = require('readline-sync');
 
 function lerItem() {
     
+    console.log("Cadastrando item");
+
     let nome, peso_s, medida, valor_s, quantidade_s;    
 
     while (true)
@@ -119,7 +121,6 @@ function lerItem() {
         else break;
     }
     
-    nome = nome.toUpperCase();
     let peso = parseFloat(peso_s);
 
     if (medida.toUpperCase() == 'G') 
@@ -138,6 +139,8 @@ function lerItem() {
 }
 
 function removerItem() {
+
+    console.log("Removendo item");
 
     let index_s;
 
@@ -186,16 +189,16 @@ function listarInventario()
 function listarValorTotalInventario()
 {
     try {
-        console.log (`O valor total do inventario é ${controle.retornarValorTotal()}`);
+        console.log(`O valor total do inventario é R$${controle.retornarValorTotal()}`);
     } catch (error) {
         throw error;
     }
 }
 
-function listarPespTotalInventario()
+function listarPesoTotalInventario()
 {
     try {
-        console.log (`O peso total do inventario é ${controle.retornarPesoTotal()}`);
+        console.log(`O peso total do inventario é ${controle.retornarPesoTotal()}Kg`);
     } catch (error) {
         throw error;
     }
@@ -204,7 +207,7 @@ function listarPespTotalInventario()
 function listarMediaValorInventario()
 {
     try {
-        console.log (`A média de valor dos itens do inventario é ${controle.retornarMediaValor()}`);
+        console.log(`A média de valor dos itens do inventario é R$${controle.retornarMediaValor()}`);
     } catch (error) {
         throw error;
     }
@@ -213,7 +216,7 @@ function listarMediaValorInventario()
 function listarMediaPesoInventario()
 {
     try {
-        console.log (`A média de peso dos itens do inventario é ${controle.retornarMediaPeso()}`);
+        console.log(`A média de peso dos itens do inventario é ${controle.retornarMediaPeso()}Kg`);
     } catch (error) {
         throw error;
     }
@@ -222,7 +225,7 @@ function listarMediaPesoInventario()
 function listarQuantidadeTotalInventario()
 {
     try {
-        console.log (`A média de peso dos itens do inventario é ${controle.retornarQuantidadeTotal()}`);
+        console.log(`A quantidade total de itens do inventario é ${controle.retornarQuantidadeTotal()}`);
     } catch (error) {
         throw error;
     }
@@ -232,13 +235,8 @@ function listarQuantidadeTotalInventario()
 function listarQuantidadeUnicaInventario()
 {
     try {
-        console.log (`A média de peso dos itens do inventario é ${controle.retornarQuantidadeUnica()}`);
+        console.log(`A quantidade de itens unicos do inventario é ${controle.retornarQuantidadeUnica()}`);
     } catch (error) {
         throw error;
     }
 }
-
-
-
-controle.iniciarDatabase();
-lerItem();

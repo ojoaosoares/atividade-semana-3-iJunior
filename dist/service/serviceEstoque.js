@@ -81,8 +81,103 @@ function lerItem() {
         peso /= 1000;
     let valor = parseFloat(valor_s);
     let quantidade = parseInt(quantidade_s);
-    controle.adicionarItem(nome, peso, valor, quantidade);
+    try {
+        controle.adicionarItem(nome, peso, valor, quantidade);
+    }
+    catch (error) {
+        throw error;
+    }
+}
+function removerItem() {
+    let index_s;
+    while (true) {
+        index_s = readLine.question("Index: ").trim();
+        console.log(`${index_s} ${typeof index_s} ${Number.isInteger(index_s)}`);
+        if (index_s.toUpperCase() == "CANCEL")
+            return;
+        else if (isNaN(index_s) || !Number.isInteger(Number(index_s))) {
+            console.log("A entrada digitada não é um número inteiro, tente novamente");
+            console.log("Se deseja parar digite: CANCEL");
+        }
+        else if (index_s === '') {
+            console.log("Digite algo, tente novamente");
+            console.log("Se deseja parar digite: CANCEL");
+        }
+        else
+            break;
+    }
+    try {
+        controle.removerItem(Number(index_s));
+    }
+    catch (error) {
+        throw error;
+    }
+}
+function listarInventario() {
+    try {
+        controle.listarItens();
+    }
+    catch (error) {
+        throw error;
+    }
+}
+function listarValorTotalInventario() {
+    try {
+        console.log(`O valor total do inventario é R$${controle.retornarValorTotal()}`);
+    }
+    catch (error) {
+        throw error;
+    }
+}
+function listarPesoTotalInventario() {
+    try {
+        console.log(`O peso total do inventario é ${controle.retornarPesoTotal()}Kg`);
+    }
+    catch (error) {
+        throw error;
+    }
+}
+function listarMediaValorInventario() {
+    try {
+        console.log(`A média de valor dos itens do inventario é R$${controle.retornarMediaValor()}`);
+    }
+    catch (error) {
+        throw error;
+    }
+}
+function listarMediaPesoInventario() {
+    try {
+        console.log(`A média de peso dos itens do inventario é ${controle.retornarMediaPeso()}Kg`);
+    }
+    catch (error) {
+        throw error;
+    }
+}
+function listarQuantidadeTotalInventario() {
+    try {
+        console.log(`A quantidade total de itens do inventario é ${controle.retornarQuantidadeTotal()}`);
+    }
+    catch (error) {
+        throw error;
+    }
+}
+function listarQuantidadeUnicaInventario() {
+    try {
+        console.log(`A quantidade de itens unicos do inventario é ${controle.retornarQuantidadeUnica()}`);
+    }
+    catch (error) {
+        throw error;
+    }
 }
 controle.iniciarDatabase();
+listarInventario();
+listarMediaPesoInventario();
+listarMediaValorInventario();
+listarPesoTotalInventario();
+listarQuantidadeTotalInventario();
+listarQuantidadeUnicaInventario();
+listarValorTotalInventario();
 lerItem();
+removerItem();
+listarInventario();
 //# sourceMappingURL=serviceEstoque.js.map
