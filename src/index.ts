@@ -4,11 +4,9 @@ const readLine = require('readline-sync');
 
 let key : number;
 
+service.criarEstoque();
+
 do {
-
-
-    service.criarEstoque();
-
 
     console.log('Escolha uma opção:');
     console.log('1. Inserir item');
@@ -50,6 +48,8 @@ do {
                 
                 if (error === "Arquivo ou diretorio não existe")
                     service.criarEstoque();
+                else if (error === "Item não existe")
+                    console.log(error);
                 else
                     throw error
             }
@@ -80,7 +80,7 @@ do {
             break;
         case 4:
             try {
-                service.lerItem();
+                service.pesquisarPorNomeInventario();
 
             } catch (error) {
                 

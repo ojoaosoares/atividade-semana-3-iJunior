@@ -100,7 +100,7 @@ function recuperarLinha(id : number)
     }
 
     // The value was not find 
-    throw "Index não existe";
+    throw "Item não existe";
 }
 
 function indexExiste(id : number)
@@ -133,7 +133,7 @@ function removerLinha(id : number)
         throw "Arquivo ou diretorio não existe";
     
     if(indexExiste(id) == false)
-        throw "Index não existe";
+        throw "Item não existe";
 
     let data = fs.readFileSync(`${dir}${database}`, 'utf8')
     

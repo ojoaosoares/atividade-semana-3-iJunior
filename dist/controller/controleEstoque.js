@@ -18,6 +18,16 @@ function adicionarItem(nome, peso, valor, quantidade) {
         throw error;
     }
 }
+function recuperarItem(index) {
+    let produto;
+    try {
+        produto = readCVS.recuperarLinha(index);
+    }
+    catch (error) {
+        throw error;
+    }
+    produto.imprimir();
+}
 function removerItem(index) {
     try {
         readCVS.removerLinha(index);
@@ -106,7 +116,23 @@ function retornarMediaPeso() {
     }
     return media_peso;
 }
+function pesquisarPorNome(valor) {
+    let itens;
+    try {
+        itens = readCVS.retornarItens();
+    }
+    catch (error) {
+        throw error;
+    }
+    itens = itens.filter(value => {
+        return value.nome.toLowerCase().includes(valor.toLocaleLowerCase());
+    });
+    console.log("INDEX - NOME - PESO - VALOR - QUANTIDADE");
+    itens.forEach(element => {
+        element.imprimir();
+    });
+}
 module.exports = { adicionarItem, removerItem, listarItens, retornarValorTotal,
     retornarPesoTotal, retornarQuantidadeTotal, retornarQuantidadeUnica,
-    retornarMediaValor, retornarMediaPeso, criarDatabase };
+    retornarMediaValor, retornarMediaPeso, criarDatabase, pesquisarPorNome, recuperarItem };
 //# sourceMappingURL=controleEstoque.js.map

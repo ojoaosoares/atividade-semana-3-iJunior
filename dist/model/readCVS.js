@@ -59,7 +59,7 @@ function recuperarLinha(id) {
         }
     }
     // The value was not find 
-    throw "Index não existe";
+    throw "Item não existe";
 }
 function indexExiste(id) {
     if (!fs.existsSync(`${dir}${database}`))
@@ -79,7 +79,7 @@ function removerLinha(id) {
     if (!fs.existsSync(`${dir}${database}`))
         throw "Arquivo ou diretorio não existe";
     if (indexExiste(id) == false)
-        throw "Index não existe";
+        throw "Item não existe";
     let data = fs.readFileSync(`${dir}${database}`, 'utf8');
     // O arquivo é dividido por linhas, em seguida é filtrado
     let rows = data.split(/[\r\n]/).filter(value => {

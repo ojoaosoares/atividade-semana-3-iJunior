@@ -30,6 +30,18 @@ function adicionarItem(nome : string, peso : number,
     }           
 }
 
+function recuperarItem(index : number)
+{
+    let produto : Produto;
+    try {
+        produto = readCVS.recuperarLinha(index);
+    } catch (error) {
+        throw error;
+    }
+    
+    produto.imprimir();
+}
+
 function removerItem(index : number) {
 
     try {
@@ -172,4 +184,4 @@ function pesquisarPorNome(valor : string)
 
 module.exports = {adicionarItem, removerItem, listarItens, retornarValorTotal,
     retornarPesoTotal, retornarQuantidadeTotal, retornarQuantidadeUnica,
-    retornarMediaValor, retornarMediaPeso, criarDatabase};
+    retornarMediaValor, retornarMediaPeso, criarDatabase, pesquisarPorNome, recuperarItem};
